@@ -1,7 +1,5 @@
 # AutoAfem
 
----
-
 AutoAfem is a automation tool built specifically for Cashier Managers and Assistant Cashier Managers that work in a specific retail chain. This tool is designed to replace cobbled together "Dailies" by taking the same 15min charts used for the dailies and automating the break scheduling, and cart shift scheduling normaly done by said associates.
 
 _This tool is unofficial, and as such is not supported by the retail chain, it is merely made by me to simplify my work, and to remove two hours of work I normally would have to do every week_
@@ -18,13 +16,9 @@ _This tool is unofficial, and as such is not supported by the retail chain, it i
 
 ## Example In/Output
 
----
-
 **[TODO]**
 
 ## Usage
-
----
 
 #### Simple
 
