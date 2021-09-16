@@ -1,0 +1,36 @@
+{
+  "name": "auto-afem",
+  "version": "1.0.0",
+  "description": "Automation tool built for cashier managers and assistants for a specific retail chain",
+  "main": "src/main.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TimothyCates/Auto-Afem.git"
+  },
+  "keywords": [
+    "Automation",
+    "PDF",
+    "JS",
+    "IMAP",
+    "NODE",
+    "Schedules"
+  ],
+  "author": "Timothy Cates",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/TimothyCates/Auto-Afem/issues"
+  },
+  "homepage": "https://github.com/TimothyCates/Auto-Afem#readme",
+  "devDependencies": {
+    "@babel/preset-env": "^7.15.6",
+    "@babel/preset-typescript": "^7.15.0",
+    "@types/jest": "^27.0.1",
+    "jest": "^27.2.0"
+  }
+}
