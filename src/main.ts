@@ -32,9 +32,8 @@ async function test() {
 	if (Array.isArray(emails)) {
 		for (let i = 0; i < emails.length; i++) {
 			const msg = emails[i];
-			console.log(`Email:\n ${msg.subject}\n
-		Body:\n${msg.text}\n
-		Attachments: [${msg.attachments.length}]
+			console.log(`Email:\n${msg.subject}
+		\nAttachments: [${msg.attachments.length}]
 		`);
 		}
 	}
