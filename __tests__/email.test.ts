@@ -46,12 +46,7 @@ describe("The Email Class", () => {
 			expect((email as any)._imap._config.password).toEqual("pass");
 		});
 		it("Should reject if connection is already active", async () => {
-			const email = new Email({
-				host: "host",
-				port: 55,
-				user: "user",
-				password: "pass",
-			});
+			const email = new Email({ user: "", password: "" });
 			jest.spyOn((email as any)._imap, "connect").mockImplementation(() => {
 				(email as any)._imap.state = "connected";
 				(email as any)._imap.emit("ready", "Connection Completed");
@@ -61,8 +56,19 @@ describe("The Email Class", () => {
 		});
 	});
 	describe("When Disconnecting", () => {
-		it("Should call imap.end", () => {});
-		it("Should resolve if no connection exists", () => {});
+		it("Should call imap.end", () => {
+			const email = new Email({ user: "", password: "" });
+			(email as any)._imap.state = "connected"; //bypass already disconnected resolve
+			const spy = jest
+				.spyOn((email as any)._imap, "end")
+				.mockImplementation(() => {});
+			email.disconnect();
+			expect(spy).toHaveBeenCalled();
+		});
+		it("Should resolve if no connection exists", () => {
+			const email = new Email({ user: "", password: "" });
+			return expect(email.disconnect()).resolves.toBeDefined();
+		});
 	});
 	describe("getEmails", () => {
 		it("Should call fetchEmails", () => {});
