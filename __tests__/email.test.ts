@@ -124,8 +124,6 @@ describe("The Email Class", () => {
 		it("should reject on error", () => {});
 		it("should resolve on end", () => {});
 		it("Should resolve to array", () => {});
-	});
-	describe("readEmail", () => {
 		it("Should join data chunks", () => {});
 		it("Should resolve on stream end", () => {});
 		it("Should reject on stream error", () => {});
