@@ -71,20 +71,63 @@ describe("The Email Class", () => {
 		});
 	});
 	describe("getEmails", () => {
-		it("Should call fetchEmails", () => {});
-		it("Should call parseEmails", () => {});
-		it("Should resolve to an array", () => {});
-		it("Should reject on error", () => {});
+		it("Should use inbox if none is specified", async () => {
+			const email = new Email({ user: "", password: "" });
+			jest
+				.spyOn((email as any)._imap, "openBox")
+				.mockImplementation((box, cb: any) => {
+					(email as any)._imap._box = box;
+					cb();
+				});
+			await email.getEmails();
+			expect((email as any)._imap._box).toEqual("INBOX");
+		});
+		it("Should reject if errors opening mailbox", () => {
+			const email = new Email({ user: "", password: "" });
+			jest
+				.spyOn((email as any)._imap, "openBox")
+				.mockImplementation((_box, cb: any) => {
+					cb(true);
+				});
+			return expect(email.getEmails()).rejects.toBeDefined();
+		});
+		it("Should call fetchEmails", async () => {
+			const email = new Email({ user: "", password: "" });
+			jest
+				.spyOn((email as any)._imap, "openBox")
+				.mockImplementation((_box, cb: any) => {
+					cb();
+				});
+			const spy = jest
+				.spyOn(email as any, "_fetchEmails")
+				.mockImplementation(() => {
+					return Promise.resolve([""]);
+				});
+			await email.getEmails();
+			expect(spy).toHaveBeenCalled();
+		});
+		it("Should resolve to an array", async () => {
+			const email = new Email({ user: "", password: "" });
+			jest
+				.spyOn((email as any)._imap, "openBox")
+				.mockImplementation((_box, cb: any) => {
+					cb();
+				});
+			jest.spyOn(email as any, "_fetchEmails").mockImplementation(() => {
+				return Promise.resolve([""]);
+			});
+			expect(await email.getEmails()).toBeInstanceOf(Array);
+		});
+		it("Should reject on fetch error", () => {});
+	});
+	describe("fetchEmails", () => {
+		it("should reject on error", () => {});
+		it("should resolve on end", () => {});
+		it("Should resolve to array", () => {});
 	});
 	describe("readEmail", () => {
 		it("Should join data chunks", () => {});
 		it("Should resolve on stream end", () => {});
 		it("Should reject on stream error", () => {});
-	});
-	describe("parseEmail", () => {
-		it("Should resolve on empty input", () => {});
-		it("Should resolve to array", () => {});
-		it("Should call mailParser.simpleParser", () => {});
-		it("Should reject on parse error", () => {});
 	});
 });
