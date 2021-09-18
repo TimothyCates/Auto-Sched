@@ -91,11 +91,9 @@ describe("The Email Class", () => {
 			jest
 				.spyOn(emailClass._imap, "openBox")
 				.mockImplementation((_box, cb: any) => {
-					cb(new Error("Test Error"));
+					cb(new Error("Openbox Error"));
 				});
-			await email.getEmails().catch((error) => {
-				expect(error).toBeDefined();
-			});
+			await expect(email.getEmails()).rejects.toThrow("Openbox Error");
 		});
 		it("Should call fetchEmails", async () => {
 			jest
