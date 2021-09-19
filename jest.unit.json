@@ -1,6 +1,7 @@
 {
 	"preset": "ts-jest",
-	"coverageDirectory": "./coverage",
+	"coverageDirectory": "./docs/coverage",
+	"coverageReporters": ["html"],
 	"resetMocks": true,
 	"clearMocks": true
 }
