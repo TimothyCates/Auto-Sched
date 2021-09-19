@@ -1,9 +1,6 @@
-import { catchClause } from "@babel/types";
-import Imap from "imap";
-import mailParser from "mailparser";
 import { Email } from "../src/email";
 import Events from "events";
-import { PassThrough, Stream } from "stream";
+import { PassThrough } from "stream";
 
 const email = new Email({
 	host: "host",
