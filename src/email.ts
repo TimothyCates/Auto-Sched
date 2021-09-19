@@ -48,10 +48,10 @@ export class Email {
 				try {
 					const emails = await this._fetchEmails();
 					let parsedMail: mailParser.ParsedMail[] = [];
-					emails.forEach(async (email, index) => {
+					for (const email of emails) {
 						let parsedEmail = await mailParser.simpleParser(email);
 						parsedMail.push(parsedEmail);
-					});
+					}
 					resolve(parsedMail);
 				} catch (e) {
 					reject(e);
