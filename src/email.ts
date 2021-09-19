@@ -7,6 +7,7 @@ export class Email {
 	constructor(connectionOptions: Imap.Config) {
 		this._imap = new Imap({
 			...connectionOptions,
+			tls: true,
 			tlsOptions: {
 				...connectionOptions.tlsOptions,
 				servername: connectionOptions.host, //adds SNI to connection options
