@@ -1,8 +1,9 @@
 import { catchClause } from "@babel/types";
 import Imap from "imap";
 import mailParser from "mailparser";
-import { resolve } from "path/posix";
 import { Email } from "../src/email";
+import Events from "events";
+import { PassThrough, Stream } from "stream";
 
 const email = new Email({
 	host: "host",
@@ -10,14 +11,14 @@ const email = new Email({
 	user: "user",
 	password: "pass",
 });
-afterAll(() => {
-	jest.restoreAllMocks();
-});
 
 const emailClass = email as any;
 
 describe("The Email Class", () => {
 	describe("When Connecting", () => {
+		afterAll(() => {
+			jest.restoreAllMocks();
+		});
 		it("Should call imap.connect", async () => {
 			const spy = jest
 				.spyOn(emailClass._imap, "connect")
@@ -59,6 +60,9 @@ describe("The Email Class", () => {
 		});
 	});
 	describe("When Disconnecting", () => {
+		afterAll(() => {
+			jest.restoreAllMocks();
+		});
 		it("Should call imap.end", async () => {
 			emailClass._imap.state = "connected"; //bypass already disconnected resolve
 			const spy = jest.spyOn(emailClass._imap, "end").mockImplementation(() => {
@@ -73,6 +77,9 @@ describe("The Email Class", () => {
 		});
 	});
 	describe("getEmails", () => {
+		afterAll(() => {
+			jest.restoreAllMocks();
+		});
 		it("Should use inbox if none is specified", async () => {
 			jest
 				.spyOn(emailClass._imap, "openBox")
@@ -126,18 +133,83 @@ describe("The Email Class", () => {
 				.mockImplementation((_box, cb: any) => {
 					cb();
 				});
+
 			jest.spyOn(emailClass, "_fetchEmails").mockImplementation(() => {
 				return Promise.reject(new Error("Fetch Error"));
 			});
+
 			await expect(email.getEmails()).rejects.toThrow("Fetch Error");
 		});
 	});
 	describe("fetchEmails", () => {
-		it("should reject on error", () => {});
-		it("should resolve on end", () => {});
-		it("Should resolve to array", () => {});
-		it("Should join data chunks", () => {});
-		it("Should resolve on stream end", () => {});
-		it("Should reject on stream error", () => {});
+		afterAll(() => {
+			jest.restoreAllMocks();
+		});
+		it("should reject on error", async () => {
+			jest.spyOn(emailClass._imap, "fetch").mockImplementation(() => {
+				const fetchEvent = new Events.EventEmitter();
+				setTimeout(() => {
+					fetchEvent.emit("error", new Error("Fetch Error"));
+				}, 100);
+				return fetchEvent;
+			});
+			await expect(emailClass._fetchEmails()).rejects.toThrow("Fetch Error");
+		});
+		it("should resolve on end", async () => {
+			jest.spyOn(emailClass._imap, "fetch").mockImplementation(() => {
+				const fetchEvent = new Events.EventEmitter();
+				setTimeout(() => {
+					fetchEvent.emit("end");
+				}, 100);
+				return fetchEvent;
+			});
+			await expect(emailClass._fetchEmails()).resolves.toBeDefined();
+		});
+		it("Should resolve to array", async () => {
+			jest.spyOn(emailClass._imap, "fetch").mockImplementation(() => {
+				const fetchEvent = new Events.EventEmitter();
+				setTimeout(() => {
+					fetchEvent.emit("end");
+				}, 100);
+				return fetchEvent;
+			});
+			const results = await emailClass._fetchEmails();
+			expect(results).toBeInstanceOf(Array);
+		});
+		it("Should join data chunks", async () => {
+			jest.spyOn(emailClass._imap, "fetch").mockImplementation(() => {
+				const fetchEvent = new Events.EventEmitter();
+				const messageEvent = new Events.EventEmitter();
+				const stream = new PassThrough();
+				const data = ["First Half ", "Second Half"];
+				setTimeout(() => {
+					fetchEvent.emit("message", messageEvent);
+					messageEvent.emit("body", stream);
+					stream.emit("data", data[0]);
+					stream.emit("data", data[1]);
+					stream.end();
+					stream.destroy();
+					fetchEvent.emit("end");
+				}, 100);
+				return fetchEvent;
+			});
+			const results = await emailClass._fetchEmails();
+			expect(results[0]).toEqual("First Half Second Half");
+		});
+		it("Should reject on stream error", async () => {
+			jest.spyOn(emailClass._imap, "fetch").mockImplementation(() => {
+				const fetchEvent = new Events.EventEmitter();
+				const messageEvent = new Events.EventEmitter();
+				const stream = new PassThrough();
+				setTimeout(() => {
+					fetchEvent.emit("message", messageEvent);
+					messageEvent.emit("body", stream);
+					stream.emit("error", new Error("Stream Error"));
+					stream.destroy();
+				}, 100);
+				return fetchEvent;
+			});
+			await expect(emailClass._fetchEmails()).rejects.toThrow("Stream Error");
+		});
 	});
 });
