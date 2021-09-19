@@ -10,7 +10,7 @@
 		"start": "node ./dist/main.js",
 		"build": "tsc --project ./tsconfig.json --watch",
 		"test": "jest -c ./jest.unit.json",
-		"test:coverage": "jest --coverage -c ./jest.unit.json"
+		"test:coverage": "jest --coverage -c ./jest.unit.json && jest-coverage-badges --input ./docs/coverage/coverage-summary.json --output ./docs/coverage/badges"
 	},
 	"repository": {
 		"type": "git",
@@ -45,6 +45,7 @@
 	"dependencies": {
 		"dotenv": "^10.0.0",
 		"imap": "^0.8.19",
+		"jest-coverage-badges": "^1.1.2",
 		"mailparser": "^3.3.1"
 	}
 }
