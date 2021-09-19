@@ -29,4 +29,11 @@ export class Email {
 			}
 		});
 	}
+
+	public disconnect() {
+		return new Promise((resolve) => {
+			if (this._imap.state == "disconnected") resolve(true);
+			else this._imap.end();
+		});
+	}
 }
