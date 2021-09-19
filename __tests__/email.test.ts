@@ -80,7 +80,7 @@ describe("The Email Class", () => {
 		it("Should use inbox if none is specified", async () => {
 			jest
 				.spyOn(emailClass._imap, "openBox")
-				.mockImplementation((box, cb: any) => {
+				.mockImplementation((box, _readonly, cb: any) => {
 					emailClass._imap._box = box;
 					cb();
 				});
@@ -94,7 +94,7 @@ describe("The Email Class", () => {
 		it("Should reject on openBox errors", async () => {
 			jest
 				.spyOn(emailClass._imap, "openBox")
-				.mockImplementation((_box, cb: any) => {
+				.mockImplementation((_box, _readonly, cb: any) => {
 					cb(new Error("Openbox Error"));
 				});
 			await expect(email.getEmails()).rejects.toThrow("Openbox Error");
@@ -102,7 +102,7 @@ describe("The Email Class", () => {
 		it("Should call fetchEmails", async () => {
 			jest
 				.spyOn(emailClass._imap, "openBox")
-				.mockImplementation((_box, cb: any) => {
+				.mockImplementation((_box, _readonly, cb: any) => {
 					cb();
 				});
 			const spy = jest
@@ -116,7 +116,7 @@ describe("The Email Class", () => {
 		it("Should resolve to an array", async () => {
 			jest
 				.spyOn(emailClass._imap, "openBox")
-				.mockImplementation((_box, cb: any) => {
+				.mockImplementation((_box, _readonly, cb: any) => {
 					cb();
 				});
 			jest.spyOn(emailClass, "_fetchEmails").mockImplementation(() => {
@@ -127,7 +127,7 @@ describe("The Email Class", () => {
 		it("Should reject on _fetch errors", async () => {
 			jest
 				.spyOn(emailClass._imap, "openBox")
-				.mockImplementation((_box, cb: any) => {
+				.mockImplementation((_box, _readonly, cb: any) => {
 					cb();
 				});
 
