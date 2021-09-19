@@ -41,7 +41,7 @@ export class Email {
 		});
 	}
 
-	public getEmails(mailbox?: string) {
+	public getEmails(mailbox?: string): Promise<mailParser.ParsedMail[]> {
 		return new Promise((resolve, reject) => {
 			this._imap.openBox(mailbox || "INBOX", true, async (error: Error) => {
 				if (error) reject(error);
