@@ -1,5 +1,5 @@
 import Imap from "imap";
-import mailParser, { MailParser } from "mailparser";
+import mailParser from "mailparser";
 
 export class Email {
 	private _imap: Imap;
