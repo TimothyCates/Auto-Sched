@@ -84,6 +84,9 @@ describe("The PDF Class", () => {
 		});
 	});
 	describe("getDaily", () => {
+		afterAll(() => {
+			jest.restoreAllMocks();
+		});
 		it("rejects if getPDF fails", async () => {
 			jest.spyOn(pdfClass, "getPDF").mockImplementation(() => {
 				return Promise.reject(new Error("getPDF Error"));
