@@ -20,7 +20,11 @@ export class PDF {
 		return new Promise((resolve, reject) => {});
 	}
 	getPDF(fileLocation: string) {
-		return new Promise((resolve, reject) => {});
+		return new Promise((resolve, reject) => {
+			this._pdf.on("pdfParser_dataError", (err) => reject(err.parserError));
+			this._pdf.on("pdfParser_dataReady", (output) => resolve(output));
+			this._pdf.loadPDF(fileLocation);
+		});
 	}
 	getShifts(json: Pdf2json.PDFOutput) {
 		let Shifts: Shift[] = [];
