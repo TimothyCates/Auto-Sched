@@ -1,8 +1,8 @@
-import Pdf2json from "pdf2json";
+import Pdf2json from 'pdf2json';
 
 enum DAY {
 	Sunday,
-	Money,
+	Monday,
 	Tuesday,
 	Wednesday,
 	Thursday,
@@ -47,7 +47,7 @@ export class PDF {
 	];
 	private _pdf = new Pdf2json();
 	private _getDateFromDaily(text: string): Date {
-		const dateStrings = text.split(" ")[5].split("_");
+		const dateStrings = text.split(' ')[5].split('_');
 		return new Date(+dateStrings[3], +dateStrings[1] - 1, +dateStrings[2]);
 	}
 	getDaily(
@@ -59,9 +59,10 @@ export class PDF {
 			try {
 				let chart = await this.getPDF(fileLocation);
 				for (let i = 0; i < chart.formImage.Pages.length; i++) {
-					let currDate;
+					let currDate: Date;
 					let currDepartment;
 					const page = chart.formImage.Pages[i].Texts;
+					let shiftText = [];
 					for (const text of page) {
 						const decoded = decodeURI(text.R[0].T);
 						//Get the chart's date and assign it to control variable
@@ -70,18 +71,17 @@ export class PDF {
 							const date = this._getDateFromDaily(decoded);
 							currDate = date.getDay();
 							if (daily.week === undefined) daily.week = date;
-							if (daily.days[currDate].date === undefined)
-								daily.days[currDate].date = date;
-						} else if (
-							text.x <= 17 &&
-							text.y >= 3 &&
-							decoded !== "Forecasted Headcount"
-						) {
-							if (
-								decoded in
-								(options?.departmentHeaders || this._defaultDepartmentHeads)
-							) {
+							if (daily.days[currDate].date === undefined) daily.days[currDate].date = date;
+						} else if (text.x <= 17 && text.y >= 3 && decoded !== 'Forecasted Headcount') {
+							if (decoded in (options?.departmentHeaders || this._defaultDepartmentHeads)) {
 								currDepartment = decoded;
+							} else {
+								shiftText.push({
+									text: decoded,
+									department: currDepartment,
+									x: text.x,
+									y: text.y,
+								});
 							}
 						}
 					}
@@ -94,8 +94,8 @@ export class PDF {
 	}
 	getPDF(fileLocation: string): Promise<Pdf2json.PDFOutput> {
 		return new Promise((resolve, reject) => {
-			this._pdf.on("pdfParser_dataError", (err) => reject(err.parserError));
-			this._pdf.on("pdfParser_dataReady", (output) => resolve(output));
+			this._pdf.on('pdfParser_dataError', (err) => reject(err.parserError));
+			this._pdf.on('pdfParser_dataReady', (output) => resolve(output));
 			this._pdf.loadPDF(fileLocation);
 		});
 	}
