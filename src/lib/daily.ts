@@ -175,15 +175,15 @@ export class Daily {
 	private _getShifts(shifts: PdfText[]): Map<string, Shift[]> {
 		let shiftMap: Map<string, Shift[]> = new Map();
 		for (const shift of shifts) {
-			let override = this._getOverrideArray(shift);
+			let [property, value] = this._getOverrideArray(shift);
 			let tempShifts = shiftMap.get(shift.department) || [];
 			let foundIndex = this._findIndexOf(shift, shiftMap);
 
 			if (foundIndex > -1) {
-				(tempShifts[foundIndex] as any)[override[0]] = override[1];
+				(tempShifts[foundIndex] as any)[property] = value;
 			} else {
 				let count = tempShifts.push(new Shift());
-				(tempShifts[count - 1] as any)[override[0]] = override[1];
+				(tempShifts[count - 1] as any)[property] = value;
 				tempShifts[count - 1].Line = shift.pos.y;
 			}
 
