@@ -1,6 +1,6 @@
 import Pdf2json from 'pdf2json';
 
-type PdfText = {
+export type PdfText = {
 	text: string;
 	department: string;
 	pos: {
