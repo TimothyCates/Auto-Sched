@@ -1,8 +1,11 @@
 export class Time {
 	//String Format: Saturday_06_27_2021
 	static getDateFromString(text: string) {
+		if (text.split(' ').length < 6) throw new Error('Invalid String');
 		const dateStrings = text.split(' ')[5].split('_');
-		return new Date(+dateStrings[3], +dateStrings[1] - 1, +dateStrings[2]);
+		let date = new Date(+dateStrings[3], +dateStrings[1] - 1, +dateStrings[2]);
+		if (date.toString() != 'Invalid Date') return date;
+		else throw new Error('Invalid Date');
 	}
 	//String Format: 600 P
 	static getFromString(timeString: string, day?: Date) {
@@ -17,7 +20,7 @@ export class Time {
 		time = time / 100;
 
 		day.setHours(time, (time % 1) * 100);
-
-		return day;
+		if (day.toString() != 'Invalid Date') return day;
+		else throw new Error('Invalid Time');
 	}
 }
