@@ -7,9 +7,10 @@ class Shift {
 	Start: Date;
 	End: Date;
 	Line: Number;
-	constructor() {
-		this.Name = '';
-		this.Start = this.End = new Date();
+	constructor(name: string = '', start: Date = new Date(), end: Date = new Date()) {
+		this.Name = name;
+		this.Start = start;
+		this.End = end;
 		this.Line = 0;
 	}
 	setStart(date: Date) {
@@ -41,6 +42,7 @@ class Week {
 	}
 	setWeek(date: Date) {
 		this.Week = new Date(date);
+		this.Week.toLocaleTimeString;
 	}
 	hasWeek() {
 		return this.Week != undefined;
