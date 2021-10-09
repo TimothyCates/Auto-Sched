@@ -18,21 +18,21 @@ jobs:
 
     steps:
     - name: Checks out rep
-      uses: actions/checkout@v2.3.4
+      uses: actions/checkout@v2
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v2
       with:
         node-version: ${{ matrix.node-version }}
+        cache: 'npm'
     - name: Install NPM dependencies
       run: npm install
     - name: Run Jest tests and generate coverage report
       run: npm run test:coverage
     - name: Publish test coverage report
-      uses: EndBug/add-and-commit@v7.4.0
+      uses: EndBug/add-and-commit@v4
       with:
         add: docs
-        pull: true
-        push: true
+        force: true
         message: Add generated coverage doc
       env:
         GITHUB_TOKEN: $
