@@ -37,6 +37,11 @@ describe("The Daily Class", () => {
 				return Mock.examplePDFData;
 			});
 			let output: any = await mockDaily.parseDaily("");
+			output.Days = [...output.Days];
+			output.Days.forEach((day: any, index: number) => {
+				output.Days[index] = { ...day };
+			});
+			output = { ...output };
 			expect(output).toEqual(Mock.expectedParseOutput);
 		});
 	});
