@@ -34,7 +34,7 @@ class Day {
 		else this.Shifts = new Map();
 	}
 	setDate(date: Date) {
-		this.Date = new Date(date);
+		this.Date = new Date(date.getFullYear(), date.getMonth(), date.getDate());
 	}
 }
 
@@ -45,8 +45,7 @@ class Week {
 		this.Days = [];
 	}
 	setWeek(date: Date) {
-		this.Week = new Date(date);
-		this.Week.toLocaleTimeString;
+		this.Week = new Date(date.getFullYear(), date.getMonth(), date.getDate());
 	}
 	hasWeek() {
 		return this.Week != undefined;

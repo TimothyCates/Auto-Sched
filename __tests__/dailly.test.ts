@@ -1,3 +1,4 @@
+import { AnyTxtRecord } from "dns";
 import { Daily } from "../src/lib/daily";
 import { Mocks } from "./mocks/daily.mock";
 
@@ -5,36 +6,6 @@ const Mock = new Mocks();
 const daily = new Daily();
 const dailyClass = daily as any;
 
-const toObject = function (theClass: any) {
-	const original = theClass;
-	const keys = Object.keys(theClass);
-	return keys.reduce((classAsObj: any, key: any) => {
-		if (
-			typeof original[key] === "object" &&
-			original[key].hasOwnProperty("toObject")
-		)
-			classAsObj[key] = original[key].toObject();
-		else if (
-			typeof original[key] === "object" &&
-			original[key].hasOwnProperty("length")
-		) {
-			classAsObj[key] = [];
-			for (var i = 0; i < original[key].length; i++) {
-				if (
-					typeof original[key][i] === "object" &&
-					original[key][i].hasOwnProperty("toObject")
-				) {
-					classAsObj[key].push(original[key][i].toObject());
-				} else {
-					classAsObj[key].push(original[key][i]);
-				}
-			}
-		} else if (typeof original[key] === "function") {
-		} //do nothing
-		else classAsObj[key] = original[key];
-		return classAsObj;
-	}, {});
-};
 describe("The Daily Class", () => {
 	describe("_getShifts", () => {
 		it("Should take PdfText Array and output ShiftMap", () => {
@@ -67,7 +38,17 @@ describe("The Daily Class", () => {
 				return Mock.examplePDFData;
 			});
 			let output: any = await mockDaily.parseDaily("");
-			output = toObject(output);
+			output = { ...output };
+			output.Days.forEach((day: any, index: number, array: any) => {
+				array[index] = { ...day };
+				day.Shifts.forEach((value: any, key: any, map: any) => {
+					value.forEach((shift: any, index: number, array: any) => {
+						array[index] = { ...shift };
+					});
+					day.Shifts.set(key, [...value]);
+				});
+			});
+
 			expect(output).toEqual(Mock.expectedParseOutput);
 		});
 	});

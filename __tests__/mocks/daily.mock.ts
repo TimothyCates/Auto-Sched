@@ -422,7 +422,7 @@ export class Mocks {
 	expectedParseOutput = {
 		Days: [
 			{
-				Date: new Date("2021-01-03T07:00:00.000Z"),
+				Date: new Date("2021-1-3"),
 				Shifts: new Map([
 					[
 						"Department One",
@@ -461,7 +461,7 @@ export class Mocks {
 				]),
 			},
 		],
-		Week: new Date("2021-01-03T07:00:00.000Z"),
+		Week: new Date("2021-1-3"),
 	};
 	expectedShiftMap: Map<string, Shift[]> = new Map();
 	MergeShiftMap: Map<string, Shift[]> = new Map();
