@@ -429,14 +429,14 @@ export class Mocks {
 						[
 							{
 								Name: "Person One",
-								Start: new Date("2021-01-03T17:00:00.000Z"),
-								End: new Date("2021-01-04T01:00:00.000Z"),
+								Start: new Date(2021, 0, 3, 10, 0),
+								End: new Date(2021, 0, 3, 18, 0),
 								Line: 3.9,
 							},
 							{
 								Name: "Person Two",
-								Start: new Date("2021-01-03T20:00:00.000Z"),
-								End: new Date("2021-01-03T21:00:00.000Z"),
+								Start: new Date(2021, 0, 3, 13, 0),
+								End: new Date(2021, 0, 3, 14, 0),
 								Line: 4,
 							},
 						],
@@ -446,14 +446,14 @@ export class Mocks {
 						[
 							{
 								Name: "Person Three",
-								Start: new Date("2021-01-03T07:00:00.000Z"),
-								End: new Date("2021-01-03T13:00:00.000Z"),
+								Start: new Date(2021, 0, 3, 0, 0),
+								End: new Date(2021, 0, 3, 6, 0),
 								Line: 9,
 							},
 							{
 								Name: "Person Four",
-								Start: new Date("2021-01-03T13:29:00.000Z"),
-								End: new Date("2021-01-04T07:30:00.000Z"),
+								Start: new Date(2021, 0, 3, 6, 30),
+								End: new Date(2021, 0, 3, 12, 30),
 								Line: 10,
 							},
 						],
