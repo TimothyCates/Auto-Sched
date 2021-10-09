@@ -10,7 +10,7 @@
 		"start": "node ./dist/main.js",
 		"build": "tsc --project ./tsconfig.json --watch",
 		"test": "jest -c ./jest.unit.json",
-		"test:coverage": "jest --coverage -c ./jest.unit.json && jest-coverage-badges --input ./coverage/coverage-summary.json --output ./coverage/badges"
+		"test:coverage": "jest --coverage -c ./jest.unit.json && jest-coverage-badges --input ./docs/coverage-summary.json --output ./docs/badges"
 	},
 	"repository": {
 		"type": "git",

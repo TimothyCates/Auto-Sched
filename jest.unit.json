@@ -1,8 +1,10 @@
 {
 	"preset": "ts-jest",
-	"coverageDirectory": "./coverage",
+	"coverageDirectory": "./docs",
 	"coverageReporters": ["json-summary", "html"],
-	"testPathIgnorePatterns": ["./__tests__/mocks"],
 	"resetMocks": true,
-	"clearMocks": true
+	"clearMocks": true,
+	"jest": {
+		"testPathIgnorePatterns": ["./__tests__/mocks/"]
+	}
 }
