@@ -1,6 +1,6 @@
 # AutoSched
 
-<img src="./docs/badges/badge-branches.svg"> <img src="./docs/badges/badge-functions.svg"> <img src="./docs/coverage/badges/badge-lines.svg"> <img src="./docs/badges/badge-statements.svg">
+<img src="./docs/badges/badge-branches.svg"> <img src="./docs/badges/badge-functions.svg"> <img src="./docs/badges/badge-lines.svg"> <img src="./docs/badges/badge-statements.svg">
 
 [Coverage Report](https://timothycates.github.io/Auto-Sched/)
 
