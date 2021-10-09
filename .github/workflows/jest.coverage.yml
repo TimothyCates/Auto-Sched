@@ -31,7 +31,8 @@ jobs:
       uses: EndBug/add-and-commit@v7.4.0
       with:
         add: docs
-        force: true
+        pull: true
+        push: true
         message: Add generated coverage doc
       env:
         GITHUB_TOKEN: $
