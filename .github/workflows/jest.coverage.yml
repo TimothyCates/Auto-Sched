@@ -10,7 +10,7 @@ on:
 jobs:
   build:
 
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     strategy:
       matrix:
         node-version: [12.x, 14.x, 16.x]
@@ -23,13 +23,12 @@ jobs:
       uses: actions/setup-node@v2
       with:
         node-version: ${{ matrix.node-version }}
-        cache: 'npm'
     - name: Install NPM dependencies
       run: npm install
     - name: Run Jest tests and generate coverage report
       run: npm run test:coverage
     - name: Publish test coverage report
-      uses: EndBug/add-and-commit@v4
+      uses: EndBug/add-and-commit@v7.4.0
       with:
         add: docs
         force: true
