@@ -1,13 +1,17 @@
-import { PDFOutput } from 'pdf2json';
-import { PDF, PdfText } from './pdf';
-import { Time } from './time';
+import { PDFOutput } from "pdf2json";
+import { PDF, PdfText } from "./pdf";
+import { Time } from "./time";
 
 class Shift {
 	Name: String;
 	Start: Date;
 	End: Date;
 	Line: Number;
-	constructor(name: string = '', start: Date = new Date(), end: Date = new Date()) {
+	constructor(
+		name: string = "",
+		start: Date = new Date(),
+		end: Date = new Date()
+	) {
 		this.Name = name;
 		this.Start = start;
 		this.End = end;
@@ -60,6 +64,7 @@ const DEFAULT_DEPARTMENTS = [
 	"Fuel'Z'",
 	"Bookkeeper'V'",
 	"Human Resources'K'",
+	"File Maint.'F'",
 ];
 
 export class Daily {
@@ -83,7 +88,7 @@ export class Daily {
 
 	private _isShiftDetail(text: any) {
 		const detailThreshold = { x: 17, y: 3 };
-		const ignoredText = ['Forecasted Headcount'];
+		const ignoredText = ["Forecasted Headcount"];
 		if (text.x <= detailThreshold.x && text.y >= detailThreshold.y) {
 			const decoded = decodeURI(text.R[0].T);
 			if (!ignoredText.includes(decoded)) return true;
@@ -106,7 +111,7 @@ export class Daily {
 			try {
 				for (const page of chartJson.formImage.Pages) {
 					let tempDayIndex: number = 0;
-					let tempDepartment: string = '';
+					let tempDepartment: string = "";
 					let textList: PdfText[] = [];
 
 					for (const text of page.Texts) {
@@ -119,7 +124,8 @@ export class Daily {
 								daily.Days[tempDayIndex] = new Day(date);
 						}
 						if (this._isShiftDetail(text)) {
-							if (this._departments.includes(decodedText)) tempDepartment = decodedText;
+							if (this._departments.includes(decodedText))
+								tempDepartment = decodedText;
 							else
 								textList.push({
 									text: decodedText,
@@ -147,15 +153,15 @@ export class Daily {
 	private _getOverrideArray(shift: PdfText): [string, any] {
 		const startTimeThreshold = 9;
 		const endTimeThreshold = 11;
-		let override: [string, any] = ['', undefined];
+		let override: [string, any] = ["", undefined];
 		if (shift.pos.x < startTimeThreshold) {
-			override[0] = 'Name';
+			override[0] = "Name";
 			override[1] = shift.text;
 		} else if (shift.pos.x < endTimeThreshold) {
-			override[0] = 'Start';
+			override[0] = "Start";
 			override[1] = Time.getFromString(shift.text, shift.date);
 		} else {
-			override[0] = 'End';
+			override[0] = "End";
 			override[1] = Time.getFromString(shift.text, shift.date);
 		}
 		return override;
